@@ -1,0 +1,1656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevFlow | Modern Blog Platform</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-dark: #090a0f;
+            --bg-card: rgba(17, 18, 27, 0.65);
+            --bg-input: rgba(30, 32, 48, 0.5);
+            --border-glass: rgba(255, 255, 255, 0.08);
+            --border-glass-active: rgba(255, 255, 255, 0.18);
+            --text-primary: #f3f4f6;
+            --text-secondary: #9ca3af;
+            --text-muted: #6b7280;
+            --primary: #8b5cf6;
+            --primary-gradient: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+            --accent-cyan: #06b6d4;
+            --danger: #ef4444;
+            --success: #10b981;
+            --font-outfit: 'Outfit', sans-serif;
+            --font-inter: 'Inter', sans-serif;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            font-family: var(--font-inter);
+            overflow-x: hidden;
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(139, 92, 246, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(236, 72, 153, 0.15) 0%, transparent 45%);
+            background-attachment: fixed;
+        }
+
+        /* --- Header & Layout --- */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(9, 10, 15, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-glass);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .logo-icon {
+            width: 2.2rem;
+            height: 2.2rem;
+            background: var(--primary-gradient);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-family: var(--font-outfit);
+            color: #fff;
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.4);
+        }
+
+        .logo-text {
+            font-family: var(--font-outfit);
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .search-bar {
+            position: relative;
+            width: 260px;
+        }
+
+        .search-bar input {
+            width: 100%;
+            background: var(--bg-input);
+            border: 1px solid var(--border-glass);
+            border-radius: 99px;
+            padding: 0.6rem 1rem 0.6rem 2.5rem;
+            color: var(--text-primary);
+            font-family: var(--font-inter);
+            font-size: 0.9rem;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .search-bar input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(139, 92, 246, 0.2);
+            width: 320px;
+        }
+
+        .search-bar svg {
+            position: absolute;
+            left: 0.9rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 1.1rem;
+            height: 1.1rem;
+            fill: var(--text-secondary);
+        }
+
+        /* --- Buttons --- */
+        .btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-glass);
+            color: var(--text-primary);
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: var(--font-inter);
+            font-weight: 500;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--border-glass-active);
+            transform: translateY(-1px);
+        }
+
+        .btn-primary {
+            background: var(--primary-gradient);
+            border: none;
+            color: #fff;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.25);
+        }
+
+        .btn-primary:hover {
+            opacity: 0.95;
+            box-shadow: 0 6px 16px rgba(139, 92, 246, 0.4);
+            transform: translateY(-1px);
+        }
+
+        .btn-sm {
+            padding: 0.4rem 0.8rem;
+            font-size: 0.8rem;
+            border-radius: 6px;
+        }
+
+        .btn-danger {
+            background: rgba(239, 68, 68, 0.15);
+            border-color: rgba(239, 68, 68, 0.3);
+            color: #f87171;
+        }
+
+        .btn-danger:hover {
+            background: var(--danger);
+            color: #fff;
+        }
+
+        /* --- Main Layout --- */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .layout-grid {
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 900px) {
+            .layout-grid {
+                grid-template-columns: 1fr;
+            }
+            .search-bar input:focus {
+                width: 100%;
+            }
+        }
+
+        /* --- Sidebar & Filters --- */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .glass-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            border-radius: 16px;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .card-title {
+            font-family: var(--font-outfit);
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            border-left: 3.5px solid var(--primary);
+            padding-left: 0.6rem;
+        }
+
+        .filter-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .filter-item {
+            padding: 0.5rem 0.8rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            transition: var(--transition);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .filter-item:hover, .filter-item.active {
+            background: rgba(139, 92, 246, 0.15);
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .tag-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tag {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-glass);
+            color: var(--text-secondary);
+            padding: 0.3rem 0.7rem;
+            border-radius: 99px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .tag:hover, .tag.active {
+            background: var(--primary-gradient);
+            color: #fff;
+            border-color: transparent;
+        }
+
+        /* --- Blog List View --- */
+        .blog-feed {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .feed-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .feed-title {
+            font-family: var(--font-outfit);
+            font-size: 1.8rem;
+            font-weight: 800;
+        }
+
+        .post-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        /* --- Post Card (Glassmorphic) --- */
+        .post-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            border-radius: 16px;
+            padding: 1.8rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .post-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--primary-gradient);
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .post-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--border-glass-active);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .post-card:hover::before {
+            opacity: 1;
+        }
+
+        .post-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            align-items: center;
+        }
+
+        .meta-author {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .author-badge {
+            background: rgba(139, 92, 246, 0.2);
+            color: #c084fc;
+            padding: 0.1rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .post-category {
+            background: rgba(6, 182, 212, 0.12);
+            color: var(--accent-cyan);
+            padding: 0.25rem 0.6rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.75rem;
+        }
+
+        .post-title-link {
+            font-family: var(--font-outfit);
+            font-size: 1.4rem;
+            font-weight: 700;
+            line-height: 1.3;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .post-card:hover .post-title-link {
+            color: #d8b4fe;
+        }
+
+        .post-excerpt {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .post-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+
+        .post-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 0.8rem;
+            margin-top: 0.5rem;
+        }
+
+        .views-count {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        .views-count svg {
+            width: 1rem;
+            height: 1rem;
+            fill: var(--text-muted);
+        }
+
+        /* --- Pagination --- */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            align-items: center;
+        }
+
+        .page-info {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* --- Post Details View --- */
+        .detail-view {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .back-btn {
+            align-self: flex-start;
+        }
+
+        .post-detail-header {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .post-detail-title {
+            font-family: var(--font-outfit);
+            font-size: 2.5rem;
+            font-weight: 800;
+            line-height: 1.2;
+        }
+
+        .post-detail-body {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #e5e7eb;
+            white-space: pre-wrap;
+            border-bottom: 1px solid var(--border-glass);
+            padding-bottom: 2rem;
+        }
+
+        /* --- Comment System --- */
+        .comments-section {
+            margin-top: 2rem;
+        }
+
+        .comment-form {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            margin-bottom: 2rem;
+        }
+
+        .comment-textarea {
+            width: 100%;
+            background: var(--bg-input);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 1rem;
+            color: var(--text-primary);
+            font-family: var(--font-inter);
+            font-size: 0.95rem;
+            resize: vertical;
+            min-height: 100px;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .comment-textarea:focus {
+            border-color: var(--primary);
+        }
+
+        .comment-tree {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .comment-node {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            border-left: 2px solid rgba(139, 92, 246, 0.2);
+            padding-left: 1.2rem;
+            margin-left: 0.5rem;
+            position: relative;
+        }
+
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .comment-author-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .comment-author-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .comment-date {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .comment-content {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #d1d5db;
+        }
+
+        .comment-actions {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.8rem;
+        }
+
+        .comment-action-link {
+            color: var(--primary);
+            text-decoration: none;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .comment-action-link:hover {
+            text-decoration: underline;
+        }
+
+        .reply-box-container {
+            margin-top: 0.5rem;
+            width: 100%;
+        }
+
+        /* --- Modals / Overlays --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(5, 5, 8, 0.85);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 200;
+            padding: 1.5rem;
+        }
+
+        .modal-content {
+            background: #11121b;
+            border: 1px solid var(--border-glass-active);
+            border-radius: 20px;
+            width: 100%;
+            max-width: 500px;
+            padding: 2.2rem;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            animation: modalFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes modalFadeIn {
+            from { transform: scale(0.95); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1.2rem;
+            right: 1.2rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            fill: var(--text-secondary);
+            padding: 0.3rem;
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.05);
+            fill: var(--text-primary);
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group label {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .form-input {
+            width: 100%;
+            background: var(--bg-input);
+            border: 1px solid var(--border-glass);
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            color: var(--text-primary);
+            font-family: var(--font-inter);
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .form-input:focus {
+            border-color: var(--primary);
+        }
+
+        .modal-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border-glass);
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-tab {
+            flex: 1;
+            padding: 0.8rem;
+            text-align: center;
+            cursor: pointer;
+            color: var(--text-secondary);
+            font-family: var(--font-outfit);
+            font-weight: 600;
+            transition: var(--transition);
+            border-bottom: 2px solid transparent;
+        }
+
+        .modal-tab.active {
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        /* --- Admin / Composer Dashboard --- */
+        .admin-dashboard, .composer-view {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .admin-table th, .admin-table td {
+            text-align: left;
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-glass);
+        }
+
+        .admin-table th {
+            color: var(--text-secondary);
+            font-family: var(--font-outfit);
+            font-weight: 600;
+        }
+
+        .admin-select {
+            background: var(--bg-input);
+            border: 1px solid var(--border-glass);
+            color: var(--text-primary);
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            outline: none;
+        }
+
+        /* --- Toast Notifications --- */
+        .toast-container {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 300;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .toast {
+            background: rgba(17, 18, 27, 0.95);
+            border-left: 4px solid var(--primary);
+            border: 1px solid var(--border-glass-active);
+            color: var(--text-primary);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            min-width: 280px;
+            animation: toastSlideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .toast.success { border-left: 4px solid var(--success); }
+        .toast.error { border-left: 4px solid var(--danger); }
+
+        @keyframes toastSlideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Hide logic */
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="logo-container" onclick="router.navigate('feed')">
+            <div class="logo-icon">D</div>
+            <div class="logo-text">DevFlow</div>
+        </div>
+
+        <div class="nav-actions">
+            <div class="search-bar">
+                <svg viewBox="0 0 24 24"><path d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z"/></svg>
+                <input type="text" id="searchInput" placeholder="Search posts, tags..." onkeydown="handleSearch(event)">
+            </div>
+            
+            <button class="btn btn-primary hidden" id="createPostNavBtn" onclick="router.navigate('compose')">
+                <svg style="width:1.2rem;height:1.2rem;fill:currentColor" viewBox="0 0 24 24"><path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z"/></svg>
+                Write Post
+            </button>
+
+            <button class="btn hidden" id="adminPanelNavBtn" onclick="router.navigate('admin')">
+                Dashboard
+            </button>
+
+            <div id="authNavActions">
+                <button class="btn btn-primary" onclick="authModal.show('login')">Login</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="container">
+        
+        <!-- BLOG FEED VIEW -->
+        <div id="feedView" class="view-section">
+            <div class="layout-grid">
+                <!-- Posts Feed -->
+                <div class="blog-feed">
+                    <div class="feed-header">
+                        <div class="feed-title" id="feedTitle">Latest Publications</div>
+                    </div>
+                    <div class="post-grid" id="postsList">
+                        <!-- Dynamic Post Cards -->
+                    </div>
+                    <div class="pagination" id="paginationControls">
+                        <!-- Pagination buttons dynamically rendered -->
+                    </div>
+                </div>
+
+                <!-- Sidebar Filters -->
+                <div class="sidebar">
+                    <div class="glass-card">
+                        <div class="card-title">Categories</div>
+                        <ul class="filter-list" id="sidebarCategories">
+                            <!-- Dynamic Categories -->
+                        </ul>
+                    </div>
+
+                    <div class="glass-card">
+                        <div class="card-title">Popular Tags</div>
+                        <div class="tag-cloud" id="sidebarTags">
+                            <!-- Dynamic Tags -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- POST DETAIL VIEW -->
+        <div id="postDetailView" class="view-section hidden">
+            <div class="detail-view">
+                <button class="btn back-btn" onclick="router.navigate('feed')">
+                    <svg style="width:1.2rem;height:1.2rem;fill:currentColor" viewBox="0 0 24 24"><path d="M20,11H7.83L13.42,5.41L12,4L4,12L12,20L13.41,18.59L7.83,13H20V11Z"/></svg>
+                    Back to Feed
+                </button>
+                <div class="glass-card">
+                    <article>
+                        <header class="post-detail-header" style="background:none;border-bottom:none;padding:0;position:static">
+                            <div class="post-meta">
+                                <span class="meta-author" id="detailAuthor">Author</span>
+                                <span class="post-category" id="detailCategory">Category</span>
+                                <span id="detailDate">Date</span>
+                                <span class="views-count">
+                                    <svg viewBox="0 0 24 24"><path d="M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9M12,4.5C7,4.5 2.73,7.61 1,12C2.73,16.39 7,19.5 12,19.5C17,19.5 21.27,16.39 23,12C21.27,7.61 17,4.5 12,4.5M12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17Z"/></svg>
+                                    <span id="detailViews">0</span> views
+                                </span>
+                            </div>
+                            <h1 class="post-detail-title" id="detailTitle">Post Title</h1>
+                        </header>
+                        <div class="post-detail-body" id="detailBody">
+                            Content loading...
+                        </div>
+                    </article>
+
+                    <!-- Comments Section -->
+                    <div class="comments-section">
+                        <div class="card-title">Discussion</div>
+                        
+                        <div id="commentFormContainer">
+                            <!-- Render Comment Box if Logged In, otherwise prompt login -->
+                            <div class="comment-form">
+                                <textarea class="comment-textarea" id="mainCommentText" placeholder="Share your thoughts..."></textarea>
+                                <button class="btn btn-primary align-self-end" onclick="submitMainComment()">Post Comment</button>
+                            </div>
+                        </div>
+
+                        <div class="comment-tree" id="commentsTree">
+                            <!-- Nested Comments dynamically built -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- WRITE / EDIT POST COMPOSER VIEW -->
+        <div id="composeView" class="view-section hidden">
+            <div class="composer-view glass-card">
+                <div class="card-title" id="composerTitle">Create New Article</div>
+                <form id="postComposerForm" onsubmit="savePost(event)">
+                    <input type="hidden" id="composerPostId">
+                    <div class="form-group">
+                        <label for="postTitle">Title</label>
+                        <input type="text" class="form-input" id="postTitle" required placeholder="e.g. Building with FastAPI">
+                    </div>
+                    <div class="form-group">
+                        <label for="postExcerpt">Excerpt / Summary</label>
+                        <input type="text" class="form-input" id="postExcerpt" placeholder="Brief summary of your post">
+                    </div>
+                    <div class="form-group">
+                        <label for="postCategorySelect">Category</label>
+                        <select class="form-input" id="postCategorySelect" required>
+                            <!-- Dynamic Options -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="postContent">Content</label>
+                        <textarea class="comment-textarea" id="postContent" style="min-height:300px" required placeholder="Write your post content here..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="postTagsInput">Tags (comma separated)</label>
+                        <input type="text" class="form-input" id="postTagsInput" placeholder="python, database, api">
+                    </div>
+                    <div class="form-group">
+                        <label for="postStatusSelect">Status</label>
+                        <select class="form-input" id="postStatusSelect">
+                            <option value="draft">Draft</option>
+                            <option value="published">Published</option>
+                        </select>
+                    </div>
+                    
+                    <div style="display:flex;gap:1rem;margin-top:1.5rem">
+                        <button type="submit" class="btn btn-primary">Save Article</button>
+                        <button type="button" class="btn" onclick="router.navigate('feed')">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- ADMIN DASHBOARD VIEW -->
+        <div id="adminView" class="view-section hidden">
+            <div class="admin-dashboard glass-card">
+                <div class="card-title">User Roles Administration</div>
+                <div style="overflow-x:auto">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>Active Status</th>
+                                <th>Current Role</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminUsersTableBody">
+                            <!-- Admin table rows -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- AUTHENTICATION MODAL -->
+    <div class="modal-overlay" id="authModalOverlay">
+        <div class="modal-content">
+            <button class="modal-close" onclick="authModal.hide()">
+                <svg style="width:1.5rem;height:1.5rem" viewBox="0 0 24 24"><path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"/></svg>
+            </button>
+            <div class="modal-tabs">
+                <div class="modal-tab active" id="tabLogin" onclick="authModal.switchTab('login')">Sign In</div>
+                <div class="modal-tab" id="tabRegister" onclick="authModal.switchTab('register')">Register</div>
+            </div>
+
+            <!-- Login Form -->
+            <form id="loginForm" onsubmit="authModal.handleLogin(event)">
+                <div class="form-group">
+                    <label for="loginUsername">Username</label>
+                    <input type="text" class="form-input" id="loginUsername" required autocomplete="username">
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" class="form-input" id="loginPassword" required autocomplete="current-password">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:100%;margin-top:1rem">Sign In</button>
+            </form>
+
+            <!-- Register Form -->
+            <form id="registerForm" class="hidden" onsubmit="authModal.handleRegister(event)">
+                <div class="form-group">
+                    <label for="regUsername">Username</label>
+                    <input type="text" class="form-input" id="regUsername" required>
+                </div>
+                <div class="form-group">
+                    <label for="regEmail">Email Address</label>
+                    <input type="email" class="form-input" id="regEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="regPassword">Password</label>
+                    <input type="password" class="form-input" id="regPassword" required placeholder="Min 8 characters">
+                </div>
+                <div class="form-group">
+                    <label for="regRole">Role</label>
+                    <select class="form-input" id="regRole">
+                        <option value="user">User (reader)</option>
+                        <option value="author">Author (writer)</option>
+                        <option value="admin">Administrator</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:100%;margin-top:1rem">Create Account</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notifications Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Application Script Logic -->
+    <script>
+        const API_URL = ''; // Relative path fits direct hosting
+
+        // State Manager
+        const state = {
+            user: null, // Logged in user info
+            token: localStorage.getItem('access_token') || null,
+            posts: [],
+            categories: [],
+            tags: [],
+            activeCategory: null,
+            activeTag: null,
+            searchQuery: '',
+            currentPage: 1,
+            pageSize: 10,
+            currentPost: null,
+            editPostId: null
+        };
+
+        // --- Notifications Helper ---
+        function toast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            const element = document.createElement('div');
+            element.className = `toast ${type}`;
+            element.innerText = message;
+            container.appendChild(element);
+            setTimeout(() => {
+                element.style.opacity = '0';
+                setTimeout(() => element.remove(), 300);
+            }, 3000);
+        }
+
+        // --- HTTP Requests client with Bearer Token ---
+        async function apiRequest(endpoint, options = {}) {
+            const url = `${API_URL}${endpoint}`;
+            const headers = { ...options.headers };
+            
+            if (!(options.body instanceof FormData) && typeof options.body === 'object') {
+                headers['Content-Type'] = 'application/json';
+                options.body = JSON.stringify(options.body);
+            }
+            if (state.token) {
+                headers['Authorization'] = `Bearer ${state.token}`;
+            }
+            options.headers = headers;
+
+            try {
+                const response = await fetch(url, options);
+                if (response.status === 401 && state.token) {
+                    // Token expired or invalid, log out
+                    logoutUser();
+                    toast('Session expired. Please log in again.', 'error');
+                    throw new Error('Unauthorized');
+                }
+                if (!response.ok) {
+                    const errData = await response.json().catch(() => ({ detail: 'Request failed' }));
+                    throw new Error(errData.detail || 'API request failed');
+                }
+                if (response.status === 204) return null;
+                return await response.json();
+            } catch (err) {
+                console.error(err);
+                throw err;
+            }
+        }
+
+        // --- Client side router ---
+        const router = {
+            currentView: 'feed',
+            navigate(view, param = null) {
+                this.currentView = view;
+                document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
+
+                if (view === 'feed') {
+                    document.getElementById('feedView').classList.remove('hidden');
+                    loadFeed();
+                } else if (view === 'post' && param) {
+                    document.getElementById('postDetailView').classList.remove('hidden');
+                    loadPostDetails(param);
+                } else if (view === 'compose') {
+                    document.getElementById('composeView').classList.remove('hidden');
+                    openPostComposer(param);
+                } else if (view === 'admin') {
+                    document.getElementById('adminView').classList.remove('hidden');
+                    loadAdminPanel();
+                }
+            }
+        };
+
+        // --- Auth Modal & logic ---
+        const authModal = {
+            currentTab: 'login',
+            show(tab = 'login') {
+                document.getElementById('authModalOverlay').style.display = 'flex';
+                this.switchTab(tab);
+            },
+            hide() {
+                document.getElementById('authModalOverlay').style.display = 'none';
+            },
+            switchTab(tab) {
+                this.currentTab = tab;
+                if (tab === 'login') {
+                    document.getElementById('tabLogin').classList.add('active');
+                    document.getElementById('tabRegister').classList.remove('active');
+                    document.getElementById('loginForm').classList.remove('hidden');
+                    document.getElementById('registerForm').classList.add('hidden');
+                } else {
+                    document.getElementById('tabLogin').classList.remove('active');
+                    document.getElementById('tabRegister').classList.add('active');
+                    document.getElementById('loginForm').classList.add('hidden');
+                    document.getElementById('registerForm').classList.remove('hidden');
+                }
+            },
+            async handleLogin(e) {
+                e.preventDefault();
+                const username = document.getElementById('loginUsername').value;
+                const password = document.getElementById('loginPassword').value;
+
+                try {
+                    const data = await apiRequest('/api/auth/login', {
+                        method: 'POST',
+                        body: { username, password }
+                    });
+                    state.token = data.access_token;
+                    localStorage.setItem('access_token', data.access_token);
+                    toast('Welcome back!');
+                    this.hide();
+                    await fetchUserProfile();
+                } catch (err) {
+                    toast(err.message || 'Login failed', 'error');
+                }
+            },
+            async handleRegister(e) {
+                e.preventDefault();
+                const username = document.getElementById('regUsername').value;
+                const email = document.getElementById('regEmail').value;
+                const password = document.getElementById('regPassword').value;
+                const role = document.getElementById('regRole').value;
+
+                try {
+                    await apiRequest('/api/auth/register', {
+                        method: 'POST',
+                        body: { username, email, password, role }
+                    });
+                    toast('Account created! Logging you in...');
+                    // Auto login
+                    const data = await apiRequest('/api/auth/login', {
+                        method: 'POST',
+                        body: { username, password }
+                    });
+                    state.token = data.access_token;
+                    localStorage.setItem('access_token', data.access_token);
+                    this.hide();
+                    await fetchUserProfile();
+                } catch (err) {
+                    toast(err.message || 'Registration failed', 'error');
+                }
+            }
+        };
+
+        async function fetchUserProfile() {
+            if (!state.token) return;
+            try {
+                const user = await apiRequest('/api/users/me');
+                state.user = user;
+                updateAuthUI();
+                router.navigate(router.currentView);
+            } catch (err) {
+                logoutUser();
+            }
+        }
+
+        function logoutUser() {
+            state.user = null;
+            state.token = null;
+            localStorage.removeItem('access_token');
+            updateAuthUI();
+            router.navigate('feed');
+            toast('Logged out successfully.');
+        }
+
+        function updateAuthUI() {
+            const authNav = document.getElementById('authNavActions');
+            const createBtn = document.getElementById('createPostNavBtn');
+            const adminBtn = document.getElementById('adminPanelNavBtn');
+
+            if (state.user) {
+                authNav.innerHTML = `
+                    <span style="font-size:0.9rem;color:var(--text-secondary)">
+                        Hello, <strong>${state.user.username}</strong>
+                    </span>
+                    <button class="btn btn-sm btn-danger" onclick="logoutUser()">Logout</button>
+                `;
+                
+                // Show composer button to authors/admins
+                if (state.user.role === 'author' || state.user.role === 'admin') {
+                    createBtn.classList.remove('hidden');
+                } else {
+                    createBtn.classList.add('hidden');
+                }
+
+                // Show Admin Dashboard button to admins
+                if (state.user.role === 'admin') {
+                    adminBtn.classList.remove('hidden');
+                } else {
+                    adminBtn.classList.add('hidden');
+                }
+            } else {
+                authNav.innerHTML = `<button class="btn btn-primary" onclick="authModal.show('login')">Login</button>`;
+                createBtn.classList.add('hidden');
+                adminBtn.classList.add('hidden');
+            }
+            
+            // Reload post-comment container state dynamically
+            renderCommentFormArea();
+        }
+
+        // --- Post Feed loading & rendering ---
+        async function loadFeed() {
+            try {
+                // Fetch categories
+                const categories = await apiRequest('/api/categories');
+                state.categories = categories;
+                renderCategoriesFilter();
+
+                // Fetch tags
+                const tags = await apiRequest('/api/tags');
+                state.tags = tags;
+                renderTagsFilter();
+
+                // Fetch posts with filters
+                let query = `/api/posts?page=${state.currentPage}&page_size=${state.pageSize}`;
+                if (state.activeCategory) query += `&category_id=${state.activeCategory}`;
+                if (state.activeTag) query += `&tag=${encodeURIComponent(state.activeTag)}`;
+                if (state.searchQuery) query += `&search=${encodeURIComponent(state.searchQuery)}`;
+                if (state.user && state.user.role !== 'user') {
+                    query += `&status=draft&status=published&status=archived`;
+                }
+
+                const res = await apiRequest(query);
+                renderPosts(res.items);
+                renderPagination(res.total, res.page, res.page_size, res.total_pages);
+            } catch (err) {
+                toast('Failed to load blog posts', 'error');
+            }
+        }
+
+        function renderCategoriesFilter() {
+            const list = document.getElementById('sidebarCategories');
+            list.innerHTML = `
+                <li class="filter-item ${!state.activeCategory ? 'active' : ''}" onclick="filterCategory(null)">
+                    <span>All Categories</span>
+                </li>
+            `;
+            state.categories.forEach(cat => {
+                list.innerHTML += `
+                    <li class="filter-item ${state.activeCategory === cat.id ? 'active' : ''}" onclick="filterCategory(${cat.id})">
+                        <span>${cat.name}</span>
+                    </li>
+                `;
+            });
+        }
+
+        function renderTagsFilter() {
+            const cloud = document.getElementById('sidebarTags');
+            cloud.innerHTML = '';
+            state.tags.forEach(tag => {
+                cloud.innerHTML += `
+                    <span class="tag ${state.activeTag === tag.name ? 'active' : ''}" onclick="filterTag('${tag.name}')">
+                        #${tag.name}
+                    </span>
+                `;
+            });
+        }
+
+        function filterCategory(id) {
+            state.activeCategory = id;
+            state.activeTag = null; // Clear tag filter
+            state.currentPage = 1;
+            loadFeed();
+        }
+
+        function filterTag(name) {
+            state.activeTag = (state.activeTag === name) ? null : name; // Toggle
+            state.currentPage = 1;
+            loadFeed();
+        }
+
+        function handleSearch(e) {
+            if (e.key === 'Enter') {
+                state.searchQuery = e.target.value.trim();
+                state.currentPage = 1;
+                loadFeed();
+            }
+        }
+
+        function renderPosts(posts) {
+            const grid = document.getElementById('postsList');
+            if (posts.length === 0) {
+                grid.innerHTML = `<div style="text-align:center;padding:3rem;color:var(--text-secondary)">No articles found matching filters.</div>`;
+                return;
+            }
+
+            grid.innerHTML = '';
+            posts.forEach(post => {
+                const dateStr = new Date(post.created_at).toLocaleDateString('en-US', {
+                    year: 'numeric', month: 'short', day: 'numeric'
+                });
+                
+                const tagSpans = post.tags.map(t => `<span class="tag" style="pointer-events:none">#${t.name}</span>`).join(' ');
+                const canEdit = state.user && (state.user.role === 'admin' || state.user.id === post.author.id);
+
+                grid.innerHTML += `
+                    <div class="post-card" onclick="router.navigate('post', '${post.slug}')">
+                        <div class="post-meta">
+                            <span class="meta-author">
+                                ${post.author.username}
+                                <span class="author-badge">${post.author.role}</span>
+                            </span>
+                            ${post.category ? `<span class="post-category">${post.category.name}</span>` : ''}
+                            <span>${dateStr}</span>
+                            <span style="background:rgba(255,255,255,0.05);padding:0.15rem 0.4rem;border-radius:4px;font-size:0.75rem">${post.status}</span>
+                        </div>
+                        <a href="#" class="post-title-link" onclick="event.preventDefault();">${post.title}</a>
+                        <p class="post-excerpt">${post.excerpt || 'Read the full contents of the article.'}</p>
+                        <div class="post-tags">${tagSpans}</div>
+                        <div class="post-footer">
+                            <span class="views-count">
+                                <svg viewBox="0 0 24 24"><path d="M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9M12,4.5C7,4.5 2.73,7.61 1,12C2.73,16.39 7,19.5 12,19.5C17,19.5 21.27,16.39 23,12C21.27,7.61 17,4.5 12,4.5M12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17Z"/></svg>
+                                ${post.view_count} views
+                            </span>
+                            ${canEdit ? `
+                                <button class="btn btn-sm" onclick="event.stopPropagation(); router.navigate('compose', ${post.id})">
+                                    Edit Post
+                                </button>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function renderPagination(total, page, size, totalPages) {
+            const controls = document.getElementById('paginationControls');
+            if (totalPages <= 1) {
+                controls.innerHTML = '';
+                return;
+            }
+            controls.innerHTML = `
+                <button class="btn btn-sm" ${page === 1 ? 'disabled' : ''} onclick="changePage(${page - 1})">Prev</button>
+                <span class="page-info">Page ${page} of ${totalPages}</span>
+                <button class="btn btn-sm" ${page === totalPages ? 'disabled' : ''} onclick="changePage(${page + 1})">Next</button>
+            `;
+        }
+
+        function changePage(page) {
+            state.currentPage = page;
+            loadFeed();
+        }
+
+        // --- Post Detail view & recursive comments ---
+        async function loadPostDetails(slug) {
+            try {
+                const post = await apiRequest(`/api/posts/${slug}`);
+                state.currentPost = post;
+
+                // Render detail fields
+                document.getElementById('detailTitle').innerText = post.title;
+                document.getElementById('detailAuthor').innerHTML = `${post.author.username} <span class="author-badge">${post.author.role}</span>`;
+                document.getElementById('detailCategory').innerText = post.category ? post.category.name : 'Uncategorized';
+                document.getElementById('detailDate').innerText = new Date(post.created_at).toLocaleDateString('en-US', {
+                    year: 'numeric', month: 'long', day: 'numeric'
+                });
+                document.getElementById('detailViews').innerText = post.view_count;
+                document.getElementById('detailBody').innerText = post.content;
+
+                loadComments();
+            } catch (err) {
+                toast('Post not found or inaccessible', 'error');
+                router.navigate('feed');
+            }
+        }
+
+        function renderCommentFormArea() {
+            const container = document.getElementById('commentFormContainer');
+            if (!container) return;
+            if (state.user) {
+                container.innerHTML = `
+                    <div class="comment-form">
+                        <textarea class="comment-textarea" id="mainCommentText" placeholder="Share your thoughts..."></textarea>
+                        <button class="btn btn-primary align-self-end" onclick="submitMainComment()">Post Comment</button>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = `
+                    <div style="background:rgba(255,255,255,0.03);border:1px dashed var(--border-glass);border-radius:12px;padding:1.5rem;text-align:center;color:var(--text-secondary);margin-bottom:1.5rem">
+                        Please <a href="#" onclick="authModal.show('login'); return false;" style="color:var(--primary);font-weight:600;text-decoration:none">log in</a> to join the conversation.
+                    </div>
+                `;
+            }
+        }
+
+        async function loadComments() {
+            try {
+                const comments = await apiRequest(`/api/posts/${state.currentPost.id}/comments`);
+                const tree = document.getElementById('commentsTree');
+                tree.innerHTML = '';
+                if (comments.length === 0) {
+                    tree.innerHTML = `<p style="color:var(--text-muted);font-size:0.95rem">No comments yet. Start the conversation!</p>`;
+                    return;
+                }
+                comments.forEach(comment => {
+                    tree.appendChild(buildCommentNode(comment));
+                });
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        function buildCommentNode(comment) {
+            const node = document.createElement('div');
+            node.className = 'comment-node';
+            node.id = `comment-${comment.id}`;
+
+            const dateStr = new Date(comment.created_at).toLocaleDateString('en-US', {
+                month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
+            });
+
+            const canDelete = state.user && (state.user.role === 'admin' || state.user.username === comment.author.username);
+
+            node.innerHTML = `
+                <div class="comment-header">
+                    <div class="comment-author-info">
+                        <span class="comment-author-name">${comment.author.username}</span>
+                        <span class="author-badge">${comment.author.role}</span>
+                    </div>
+                    <span class="comment-date">${dateStr}</span>
+                </div>
+                <div class="comment-content">${comment.content}</div>
+                <div class="comment-actions">
+                    ${state.user ? `<a class="comment-action-link" onclick="showReplyForm(${comment.id})">Reply</a>` : ''}
+                    ${canDelete && comment.content !== '[deleted]' ? `<a class="comment-action-link" style="color:var(--danger)" onclick="deleteComment(${comment.id})">Delete</a>` : ''}
+                </div>
+                <div class="reply-box-container" id="reply-container-${comment.id}"></div>
+            `;
+
+            // Append nested replies if any
+            if (comment.replies && comment.replies.length > 0) {
+                const repliesWrapper = document.createElement('div');
+                repliesWrapper.className = 'comment-tree';
+                repliesWrapper.style.marginTop = '0.8rem';
+                comment.replies.forEach(reply => {
+                    repliesWrapper.appendChild(buildCommentNode(reply));
+                });
+                node.appendChild(repliesWrapper);
+            }
+
+            return node;
+        }
+
+        async function submitMainComment() {
+            const textarea = document.getElementById('mainCommentText');
+            const content = textarea.value.trim();
+            if (!content) return;
+
+            try {
+                await apiRequest(`/api/posts/${state.currentPost.id}/comments`, {
+                    method: 'POST',
+                    body: { content }
+                });
+                textarea.value = '';
+                toast('Comment posted.');
+                loadComments();
+            } catch (err) {
+                toast(err.message, 'error');
+            }
+        }
+
+        function showReplyForm(commentId) {
+            // Remove any other active reply form first
+            document.querySelectorAll('.reply-box-container').forEach(el => el.innerHTML = '');
+
+            const container = document.getElementById(`comment-${commentId}`).querySelector('.reply-box-container');
+            container.innerHTML = `
+                <div class="comment-form" style="margin-top:0.8rem">
+                    <textarea class="comment-textarea" id="replyText-${commentId}" style="min-height:70px" placeholder="Write a reply..."></textarea>
+                    <div style="display:flex;gap:0.5rem;align-self:flex-end">
+                        <button class="btn btn-sm" onclick="cancelReply(${commentId})">Cancel</button>
+                        <button class="btn btn-sm btn-primary" onclick="submitReply(${commentId})">Reply</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function cancelReply(commentId) {
+            document.getElementById(`comment-${commentId}`).querySelector('.reply-box-container').innerHTML = '';
+        }
+
+        async function submitReply(parentCommentId) {
+            const text = document.getElementById(`replyText-${parentCommentId}`).value.trim();
+            if (!text) return;
+
+            try {
+                await apiRequest(`/api/posts/${state.currentPost.id}/comments`, {
+                    method: 'POST',
+                    body: { content: text, parent_id: parentCommentId }
+                });
+                toast('Reply posted.');
+                loadComments();
+            } catch (err) {
+                toast(err.message, 'error');
+            }
+        }
+
+        async function deleteComment(commentId) {
+            if (!confirm('Are you sure you want to delete this comment?')) return;
+            try {
+                await apiRequest(`/api/posts/${state.currentPost.id}/comments/${commentId}`, {
+                    method: 'DELETE'
+                });
+                toast('Comment deleted.');
+                loadComments();
+            } catch (err) {
+                toast(err.message, 'error');
+            }
+        }
+
+        // --- Article Composer (Create/Edit) ---
+        async function openPostComposer(postId = null) {
+            state.editPostId = postId;
+            
+            // Fetch categories for dropdown
+            const catSelect = document.getElementById('postCategorySelect');
+            catSelect.innerHTML = '';
+            state.categories.forEach(c => {
+                catSelect.innerHTML += `<option value="${c.id}">${c.name}</option>`;
+            });
+
+            if (postId) {
+                document.getElementById('composerTitle').innerText = 'Edit Article';
+                try {
+                    const post = await apiRequest(`/api/posts/${postId}`);
+                    document.getElementById('composerPostId').value = post.id;
+                    document.getElementById('postTitle').value = post.title;
+                    document.getElementById('postExcerpt').value = post.excerpt || '';
+                    document.getElementById('postCategorySelect').value = post.category ? post.category.id : '';
+                    document.getElementById('postContent').value = post.content;
+                    document.getElementById('postTagsInput').value = post.tags.map(t => t.name).join(', ');
+                    document.getElementById('postStatusSelect').value = post.status;
+                } catch (err) {
+                    toast('Failed to load post data', 'error');
+                }
+            } else {
+                document.getElementById('composerTitle').innerText = 'Create New Article';
+                document.getElementById('postComposerForm').reset();
+                document.getElementById('composerPostId').value = '';
+            }
+        }
+
+        async function savePost(e) {
+            e.preventDefault();
+            const id = document.getElementById('composerPostId').value;
+            const title = document.getElementById('postTitle').value.trim();
+            const excerpt = document.getElementById('postExcerpt').value.trim();
+            const category_id = parseInt(document.getElementById('postCategorySelect').value) || null;
+            const content = document.getElementById('postContent').value.trim();
+            const tagsText = document.getElementById('postTagsInput').value;
+            const statusVal = document.getElementById('postStatusSelect').value;
+
+            const tag_names = tagsText.split(',')
+                                      .map(t => t.trim().toLowerCase())
+                                      .filter(t => t.length > 0);
+
+            const payload = {
+                title, excerpt, category_id, content, tag_names, status: statusVal
+            };
+
+            try {
+                if (id) {
+                    // Update
+                    await apiRequest(`/api/posts/${id}`, {
+                        method: 'PUT',
+                        body: payload
+                    });
+                    toast('Article updated successfully.');
+                } else {
+                    // Create
+                    await apiRequest('/api/posts', {
+                        method: 'POST',
+                        body: payload
+                    });
+                    toast('Article published/saved.');
+                }
+                router.navigate('feed');
+            } catch (err) {
+                toast(err.message || 'Failed to save post', 'error');
+            }
+        }
+
+        // --- Admin Dashboard Panel ---
+        async function loadAdminPanel() {
+            try {
+                const users = await apiRequest('/api/users');
+                const tbody = document.getElementById('adminUsersTableBody');
+                tbody.innerHTML = '';
+                users.forEach(u => {
+                    tbody.innerHTML += `
+                        <tr>
+                            <td><strong>${u.username}</strong></td>
+                            <td>${u.email}</td>
+                            <td>
+                                <span style="color:${u.is_active ? 'var(--success)' : 'var(--danger)'};font-weight:600">
+                                    ${u.is_active ? 'Active' : 'Suspended'}
+                                </span>
+                            </td>
+                            <td>
+                                <select class="admin-select" id="role-select-${u.id}" onchange="updateUserRole(${u.id}, this.value)">
+                                    <option value="user" ${u.role === 'user' ? 'selected' : ''}>User (reader)</option>
+                                    <option value="author" ${u.role === 'author' ? 'selected' : ''}>Author (writer)</option>
+                                    <option value="admin" ${u.role === 'admin' ? 'selected' : ''}>Admin</option>
+                                </select>
+                            </td>
+                            <td>
+                                <button class="btn btn-sm btn-danger" onclick="deleteUser(${u.id})">Delete</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+            } catch (err) {
+                toast('Access denied. Administrator privileges required.', 'error');
+                router.navigate('feed');
+            }
+        }
+
+        async function updateUserRole(userId, newRole) {
+            try {
+                await apiRequest(`/api/users/${userId}/role`, {
+                    method: 'PATCH',
+                    body: { role: newRole }
+                });
+                toast('User role updated.');
+            } catch (err) {
+                toast(err.message, 'error');
+                loadAdminPanel(); // reload list
+            }
+        }
+
+        async function deleteUser(userId) {
+            if (!confirm('Are you sure you want to soft-delete this user account?')) return;
+            try {
+                await apiRequest(`/api/users/${userId}`, {
+                    method: 'DELETE'
+                });
+                toast('User account soft-deleted.');
+                loadAdminPanel();
+            } catch (err) {
+                toast(err.message, 'error');
+            }
+        }
+
+        // --- App Initialization ---
+        window.addEventListener('DOMContentLoaded', async () => {
+            await fetchUserProfile();
+            loadFeed();
+        });
+    </script>
+</body>
+</html>
